@@ -24,9 +24,11 @@ sealed class Screen(
     val route: String,
     val navArguments: List<NamedNavArgument> = emptyList()
 ) {
+    data object Onboarding : Screen("onboarding")
+
     data object Home : Screen("home")
 
-    data object Search : Screen("search")
+    data object Setting : Screen("setting")
 
     data object ArticleDetail : Screen(
         route = "articleDetail/{articleId}",
