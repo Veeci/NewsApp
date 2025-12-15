@@ -19,6 +19,10 @@ package com.example.newsapp.compose
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.example.newsapp.data.remote.dto.ArticlesItem
+import com.google.gson.Gson
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 sealed class Screen(
     val route: String,
@@ -31,11 +35,15 @@ sealed class Screen(
     data object Setting : Screen("setting")
 
     data object ArticleDetail : Screen(
-        route = "articleDetail/{articleId}",
-        navArguments = listOf(navArgument("articleId") {
+        route = "articleDetail/{articleJson}",
+        navArguments = listOf(navArgument("articleJson") {
             type = NavType.StringType
         })
     ) {
-        fun createRoute(articleId: String) = "articleDetail/${articleId}"
+        fun createRoute(article: ArticlesItem) :String {
+            val articleJson = Gson().toJson(article)
+            val enCodedArticle = URLEncoder.encode(articleJson, StandardCharsets.UTF_8.toString())
+            return "articleDetail/$enCodedArticle"
+        }
     }
 }

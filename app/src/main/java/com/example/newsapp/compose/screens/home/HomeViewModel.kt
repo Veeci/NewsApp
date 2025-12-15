@@ -2,40 +2,61 @@ package com.example.newsapp.compose.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.R
+import com.example.newsapp.data.remote.dto.NewsResponse
 import com.example.newsapp.data.repository.NewsRepository
-import com.example.newsapp.data.remote.dto.Article
+import com.example.newsapp.util.Constants
+import com.example.newsapp.util.ResponseStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class HomeUiState(
-    val articles: List<Article> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null
-)
-
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: NewsRepository
+    private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
-    val uiState = _uiState.asStateFlow()
+    private val _newsState = MutableStateFlow<ResponseStatus<NewsResponse>>(ResponseStatus.Loading)
+    val newsState: StateFlow<ResponseStatus<NewsResponse>> = _newsState.asStateFlow()
 
-    init {
-        getNews()
+    private val _topHeadlinesState = MutableStateFlow<ResponseStatus<NewsResponse>>(ResponseStatus.Loading)
+    val topHeadlinesState: StateFlow<ResponseStatus<NewsResponse>> = _topHeadlinesState.asStateFlow()
+
+    fun getNews(
+        query: String = "world",
+        page: Int = 1,
+        pageSize: Int = Constants.PAGE_SIZE,
+        language: String = "en"
+    ) {
+        viewModelScope.launch {
+            newsRepository.getNews(
+                query = query,
+                page = page,
+                pageSize = pageSize,
+                language = language
+            ).collect { data ->
+                _newsState.value = data
+            }
+        }
     }
 
-    private fun getNews() {
+    fun getTopHeadlines(
+        country: String = "us",
+        category: String = "general",
+        page: Int = 1,
+        pageSize: Int = Constants.PAGE_SIZE
+    ) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            try {
-                val articles = repository.getNews()
-                _uiState.value = _uiState.value.copy(articles = articles, isLoading = false)
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(error = e.localizedMessage, isLoading = false)
+            newsRepository.getTopHeadlines(
+                country = country,
+                category = category,
+                page = page,
+                pageSize = pageSize
+            ).collect { data ->
+                _topHeadlinesState.value = data
             }
         }
     }
