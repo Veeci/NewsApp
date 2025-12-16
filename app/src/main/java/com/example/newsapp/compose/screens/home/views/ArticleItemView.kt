@@ -3,6 +3,7 @@ package com.example.newsapp.compose.screens.home.views
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ fun ArticleItemView(
 ) {
     return Column(
         modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
             .clickable(onClick = { onNewsClick(article) })
             .width(60.w),
         horizontalAlignment = Alignment.Start,
@@ -59,6 +61,7 @@ fun ArticleItemView(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
+            Spacer(modifier = Modifier.height(1.h))
             Text(
                 text = article.author ?: "",
                 modifier = Modifier.fillMaxWidth(),
