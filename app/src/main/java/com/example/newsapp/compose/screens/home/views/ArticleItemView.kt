@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.newsapp.R
 import com.example.newsapp.data.remote.dto.ArticlesItem
 import com.example.newsapp.util.h
 import com.example.newsapp.util.w
@@ -46,9 +48,10 @@ fun ArticleItemView(
                 .fillMaxWidth()
                 .height(25.h)
                 .clip(RoundedCornerShape(10.dp)),
-            placeholder = null,
-            contentDescription = null,
+            placeholder = painterResource(R.drawable.img_news_placeholder),
+            contentDescription = article.title,
             contentScale = ContentScale.Crop,
+            error = painterResource(R.drawable.img_news_error)
         )
 
         Column(

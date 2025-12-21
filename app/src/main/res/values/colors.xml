@@ -10,4 +10,7 @@
 
     <color name="text_primary">#FF231F20</color>
     <color name="text_secondary">#FF6D6265</color>
+
+
+    <color name="orange4">#FE9584</color>
 </resources>
