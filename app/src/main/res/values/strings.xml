@@ -2,6 +2,7 @@
     <string name="app_name">Newsly</string>
     <string name="home">Home</string>
     <string name="setting">Setting</string>
+    <string name="explore">Explore</string>
     <string name="top_headlines">Top Headlines</string>
     <string name="see_more">See more</string>
 </resources>

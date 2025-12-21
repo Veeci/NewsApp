@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.compose.screens.articleDetail.ArticleDetailScreen
+import com.example.newsapp.compose.screens.explore.ExploreScreen
 import com.example.newsapp.compose.screens.home.HomeScreen
 import com.example.newsapp.compose.screens.onboarding.OnboardingScreen
 import com.example.newsapp.compose.screens.setting.SettingScreen
@@ -49,7 +50,7 @@ fun NewsNavHost(
                 }
             )
         }
-        composable(route = Screen.Setting.route) { SettingScreen() }
+        composable(route = Screen.Explore.route) { ExploreScreen() }
         composable(
             route = Screen.ArticleDetail.route,
             arguments = Screen.ArticleDetail.navArguments

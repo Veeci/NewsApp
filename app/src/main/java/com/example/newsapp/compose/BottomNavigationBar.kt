@@ -41,10 +41,10 @@ fun BottomNavigationBar(navController: NavController) {
             route = Screen.Home.route
         ),
         BottomNavItem(
-            label = stringResource(R.string.setting),
+            label = stringResource(R.string.explore),
             icon = R.drawable.ic_explore,
             selectedIcon = R.drawable.ic_explore_selected,
-            route = Screen.Setting.route
+            route = Screen.Explore.route
         )
     )
 

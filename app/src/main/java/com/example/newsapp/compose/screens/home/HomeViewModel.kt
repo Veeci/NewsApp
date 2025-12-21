@@ -20,8 +20,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
-
-    // 🔹 Feeds
     private val newsFeed = PaginatedFeedState<NewsResponse>()
     val newsState: StateFlow<ResponseStatus<NewsResponse>> = newsFeed.state.asStateFlow()
 

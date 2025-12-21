@@ -32,7 +32,7 @@ sealed class Screen(
 
     data object Home : Screen("home")
 
-    data object Setting : Screen("setting")
+    data object Explore : Screen("explore")
 
     data object ArticleDetail : Screen(
         route = "articleDetail/{articleJson}",
