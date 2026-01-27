@@ -20,7 +20,7 @@ fun BaseAppBar(
     actions: @Composable () -> Unit = {},
 ) {
     return TopAppBar(
-        title = { Text(title) },
+        title = { Text(title, style = MaterialTheme.typography.headlineLarge) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.secondary,
             titleContentColor = MaterialTheme.colorScheme.onSurface,
