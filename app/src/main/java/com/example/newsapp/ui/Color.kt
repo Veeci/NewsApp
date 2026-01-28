@@ -3,7 +3,7 @@ package com.example.newsapp.ui
 import androidx.compose.ui.graphics.Color
 
 // Light color
-val bg_primary = Color.White
+val bg_primary = Color(0xFFFFFFFF)
 val bg_on_primary = Color(0xFF2D5BD0)
 val bg_secondary = Color(0xFFE9EEFA)
 val bg_tertiary = Color(0xFFFCE9EE)

@@ -65,7 +65,7 @@ fun NewsNavHost(
             articleJson?.let {
                 val decodedJson = URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
                 val article = Gson().fromJson(decodedJson, ArticlesItem::class.java)
-                ArticleDetailScreen(article = article)
+                ArticleDetailScreen(article = article, onBackClick = { navController.popBackStack() })
             }
         }
     }
