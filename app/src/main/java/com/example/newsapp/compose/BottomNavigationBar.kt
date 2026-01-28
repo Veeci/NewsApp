@@ -53,7 +53,7 @@ fun BottomNavigationBar(navController: NavController) {
             .padding(vertical = 1.h)
             .clip(AbsoluteRoundedCornerShape(topLeft = 40.dp, topRight = 40.dp)),
         containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
-        windowInsets = NavigationBarDefaults.windowInsets.only(WindowInsetsSides.Horizontal)
+        windowInsets = NavigationBarDefaults.windowInsets
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
