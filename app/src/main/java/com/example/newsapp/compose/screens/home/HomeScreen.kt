@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -68,7 +67,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onNewsClick: (Article
                     is ResponseStatus.Error -> Text(text = newsState.message)
                     is ResponseStatus.Success -> {
                         NewsRow(
-                            newsResponse = newsState.data,
+                            newsDto = newsState.data,
                             modifier = Modifier.fillMaxWidth(),
                             onNewsClick = onNewsClick,
                             onLoadMore = { viewModel.loadMoreNews() }
@@ -102,7 +101,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onNewsClick: (Article
                     is ResponseStatus.Error -> Text(text = headlinesState.message)
                     is ResponseStatus.Success -> {
                         NewsRow(
-                            newsResponse = headlinesState.data,
+                            newsDto = headlinesState.data,
                             modifier = Modifier.fillMaxWidth(),
                             onNewsClick = onNewsClick,
                             onLoadMore = { viewModel.loadMoreTopHeadlines() }

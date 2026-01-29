@@ -56,7 +56,13 @@ fun NewsNavHost(
                 }
             )
         }
-        composable(route = Screen.Explore.route) { ExploreScreen() }
+        composable(route = Screen.Explore.route) {
+            ExploreScreen(
+                onNewsClick = {
+                    navController.navigate(Screen.ArticleDetail.createRoute(it))
+                }
+            )
+        }
         composable(
             route = Screen.ArticleDetail.route,
             arguments = Screen.ArticleDetail.navArguments
@@ -65,7 +71,9 @@ fun NewsNavHost(
             articleJson?.let {
                 val decodedJson = URLDecoder.decode(it, StandardCharsets.UTF_8.toString())
                 val article = Gson().fromJson(decodedJson, ArticlesItem::class.java)
-                ArticleDetailScreen(article = article, onBackClick = { navController.popBackStack() })
+                ArticleDetailScreen(
+                    article = article,
+                    onBackClick = { navController.popBackStack() })
             }
         }
     }

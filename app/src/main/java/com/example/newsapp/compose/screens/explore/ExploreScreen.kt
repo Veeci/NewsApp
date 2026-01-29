@@ -32,6 +32,7 @@ import com.example.newsapp.compose.component.BaseAppBar
 import com.example.newsapp.compose.screens.explore.views.ArticleItem
 import com.example.newsapp.compose.screens.explore.views.CategoryItem
 import com.example.newsapp.compose.screens.explore.views.FirstArticleItem
+import com.example.newsapp.data.remote.dto.ArticlesItem
 import com.example.newsapp.util.Category
 import com.example.newsapp.util.ResponseStatus
 import com.example.newsapp.util.h
@@ -39,7 +40,10 @@ import com.example.newsapp.util.shimmer
 import com.example.newsapp.util.w
 
 @Composable
-fun ExploreScreen(viewModel: ExploreViewModel = hiltViewModel()) {
+fun ExploreScreen(
+    viewModel: ExploreViewModel = hiltViewModel(),
+    onNewsClick: (ArticlesItem) -> Unit
+) {
     val selectedCategory = viewModel.selectedCategory.collectAsState().value
     val newsState = viewModel.newsList.collectAsState().value
 
@@ -87,9 +91,13 @@ fun ExploreScreen(viewModel: ExploreViewModel = hiltViewModel()) {
                     ) {
                         itemsIndexed(news) { index, article ->
                             if (index == 0) {
-                                FirstArticleItem(article = article, onClick = {})
+                                FirstArticleItem(
+                                    article = article,
+                                    onClick = { onNewsClick(article) })
                             } else {
-                                ArticleItem(article = article, onClick = {})
+                                ArticleItem(
+                                    article = article,
+                                    onClick = { onNewsClick(article) })
                             }
                         }
                     }

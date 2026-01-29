@@ -1,7 +1,7 @@
 package com.example.newsapp.data.repository
 
 import com.example.newsapp.data.remote.NewsApi
-import com.example.newsapp.data.remote.dto.NewsResponse
+import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.util.ApiHandler
 import com.example.newsapp.util.ResponseStatus
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ class NewsRepositoryImpl @Inject constructor(
         page: Int,
         pageSize: Int,
         language: String
-    ): Flow<ResponseStatus<NewsResponse>> {
+    ): Flow<ResponseStatus<NewsDto>> {
         return flow {
             emit(handleApi {
                 newsApi.getNews(
@@ -40,7 +40,7 @@ class NewsRepositoryImpl @Inject constructor(
         category: String,
         page: Int,
         pageSize: Int
-    ): Flow<ResponseStatus<NewsResponse>> {
+    ): Flow<ResponseStatus<NewsDto>> {
         return flow {
             emit(handleApi {
                 newsApi.getTopHeadlines(

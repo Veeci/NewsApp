@@ -3,7 +3,7 @@ package com.example.newsapp.compose.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.local.dataModel.PaginatedFeedState
-import com.example.newsapp.data.remote.dto.NewsResponse
+import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.data.repository.NewsRepository
 import com.example.newsapp.util.Constants
 import com.example.newsapp.util.Constants.MAX_RESULTS
@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -21,11 +20,11 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
-    private val newsFeed = PaginatedFeedState<NewsResponse>()
-    val newsState: StateFlow<ResponseStatus<NewsResponse>> = newsFeed.state.asStateFlow()
+    private val newsFeed = PaginatedFeedState<NewsDto>()
+    val newsState: StateFlow<ResponseStatus<NewsDto>> = newsFeed.state.asStateFlow()
 
-    private val headlinesFeed = PaginatedFeedState<NewsResponse>()
-    val topHeadlinesState: StateFlow<ResponseStatus<NewsResponse>> = headlinesFeed.state.asStateFlow()
+    private val headlinesFeed = PaginatedFeedState<NewsDto>()
+    val topHeadlinesState: StateFlow<ResponseStatus<NewsDto>> = headlinesFeed.state.asStateFlow()
 
     fun getNews(
         query: String = "world",
@@ -104,9 +103,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchPaginatedFeed(
-        feed: PaginatedFeedState<NewsResponse>,
+        feed: PaginatedFeedState<NewsDto>,
         pageSize: Int,
-        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsResponse>>
+        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsDto>>
     ) {
         feed.job?.cancel()
 
@@ -156,9 +155,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadMore(
-        feed: PaginatedFeedState<NewsResponse>,
+        feed: PaginatedFeedState<NewsDto>,
         pageSize: Int,
-        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsResponse>>
+        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsDto>>
     ) {
         if (feed.loadingMore || feed.isLastPage) return
 

@@ -16,19 +16,19 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.newsapp.data.remote.dto.ArticlesItem
-import com.example.newsapp.data.remote.dto.NewsResponse
+import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.util.h
 import com.example.newsapp.util.w
 import kotlinx.coroutines.flow.map
 
 @Composable
 fun NewsRow(
-    newsResponse: NewsResponse,
+    newsDto: NewsDto,
     modifier: Modifier = Modifier,
     onNewsClick: (ArticlesItem) -> Unit,
     onLoadMore: () -> Unit,
 ) {
-    val articleList = newsResponse.articles ?: emptyList()
+    val articleList = newsDto.articles ?: emptyList()
     val rowState = rememberLazyListState()
 
     LaunchedEffect(rowState) {

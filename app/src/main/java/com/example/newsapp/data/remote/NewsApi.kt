@@ -1,8 +1,7 @@
 package com.example.newsapp.data.remote
 
-import com.example.newsapp.data.remote.dto.NewsResponse
+import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.util.Constants
-import com.example.newsapp.util.ResponseStatus
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,7 +14,7 @@ interface NewsApi {
         @Query("page") page: Int = 1,
         @Query("pageSize") pageSize: Int = Constants.PAGE_SIZE,
         @Query("language") language: String = "en",
-    ): Response<NewsResponse>
+    ): Response<NewsDto>
 
     @GET("top-headlines")
     suspend fun getTopHeadlines(
@@ -23,5 +22,5 @@ interface NewsApi {
         @Query("category") category: String = "general",
         @Query("page") page: Int = 1,
         @Query("pageSize") pageSize: Int = Constants.PAGE_SIZE,
-    ) : Response<NewsResponse>
+    ) : Response<NewsDto>
 }

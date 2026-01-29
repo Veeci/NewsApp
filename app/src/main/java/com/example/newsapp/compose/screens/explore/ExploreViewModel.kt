@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.local.dataModel.PaginatedFeedState
-import com.example.newsapp.data.remote.dto.NewsResponse
+import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.data.repository.NewsRepository
 import com.example.newsapp.util.Category
 import com.example.newsapp.util.Constants
@@ -24,7 +24,7 @@ class ExploreViewModel @Inject constructor(
     private val _selectedCategory = MutableStateFlow(Category.entries.toTypedArray().first())
     val selectedCategory = _selectedCategory.asStateFlow()
 
-    private val _newsList = PaginatedFeedState<NewsResponse>()
+    private val _newsList = PaginatedFeedState<NewsDto>()
     val newsList = _newsList.state.asStateFlow()
 
     fun onCategorySelected(category: Category) {
@@ -47,8 +47,8 @@ class ExploreViewModel @Inject constructor(
     }
 
     private fun fetchPaginatedNews(
-        newsFeed: PaginatedFeedState<NewsResponse>,
-        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsResponse>>
+        newsFeed: PaginatedFeedState<NewsDto>,
+        fetcher: suspend (Int) -> Flow<ResponseStatus<NewsDto>>
     ) {
         newsFeed.job?.cancel()
 
