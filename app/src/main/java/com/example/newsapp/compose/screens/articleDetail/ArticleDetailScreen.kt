@@ -1,14 +1,5 @@
 package com.example.newsapp.compose.screens.articleDetail
 
-import android.net.http.SslError
-import android.util.Log
-import android.view.ViewGroup
-import android.webkit.SslErrorHandler
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -41,12 +33,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.newsapp.R
-import com.example.newsapp.compose.screens.components.WebView
+import com.example.newsapp.compose.screens.articleDetail.views.BottomBar
+import com.example.newsapp.compose.screens.articleDetail.views.ContentWebview
 import com.example.newsapp.data.remote.dto.ArticlesItem
 import com.example.newsapp.util.h
 
@@ -67,44 +59,56 @@ fun ArticleDetailScreen(article: ArticlesItem, onBackClick: () -> Unit) {
         }
     }
 
-    Box(
-        modifier = Modifier.padding(top = 2.h)
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(article.urlToImage)
-                .crossfade(true)
-                .build(),
-            contentDescription = article.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(maxHeaderHeight)
-                .graphicsLayer {
-                    alpha = 1f - collapsedFraction
-                    translationY = -collapsedFraction * maxHeaderHeight.toPx() * 0.5f
-                },
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.img_news_placeholder),
-            error = painterResource(R.drawable.img_news_error)
-        )
-
-        LazyColumn(
-            state = listState,
-            contentPadding = PaddingValues(top = maxHeaderHeight - 5.h)
-        ) {
-            item { ArticleContent(article) }
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.primary,
+        bottomBar = {
+            BottomBar(true, onSaveArticle = {}, onShareArticle = {})
         }
-
-        IconButton(onClick = onBackClick) {
-            Icon(
+    ) { contentPadding ->
+        Box(
+            modifier = Modifier
+                .padding(top = contentPadding.calculateTopPadding())
+                .padding(top = 2.h)
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(article.urlToImage)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = article.title,
                 modifier = Modifier
-                    .size(30.dp)
-                    .clip(CircleShape)
-                    .background(Color.Gray.copy(alpha = 0.2f))
-                    .padding(5.dp),
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null,
+                    .fillMaxWidth()
+                    .height(maxHeaderHeight)
+                    .graphicsLayer {
+                        alpha = 1f - collapsedFraction
+                        translationY = -collapsedFraction * maxHeaderHeight.toPx() * 0.5f
+                    },
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.img_news_placeholder),
+                error = painterResource(R.drawable.img_news_error)
             )
+
+            LazyColumn(
+                state = listState,
+                contentPadding = PaddingValues(
+                    top = maxHeaderHeight - 5.h,
+                    bottom = contentPadding.calculateBottomPadding()
+                )
+            ) {
+                item { ArticleContent(article) }
+            }
+
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray.copy(alpha = 0.2f))
+                        .padding(5.dp),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = null,
+                )
+            }
         }
     }
 }
@@ -112,15 +116,14 @@ fun ArticleDetailScreen(article: ArticlesItem, onBackClick: () -> Unit) {
 @Composable
 private fun ArticleContent(article: ArticlesItem) {
     val articleUrl = article.url ?: ""
-
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
             .background(MaterialTheme.colorScheme.primary)
             .padding(10.dp)
     ) {
-        WebView(articleUrl)
+        ContentWebview(articleUrl)
     }
 }
 

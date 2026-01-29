@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsapp.R
 import com.example.newsapp.compose.component.BaseAppBar
 import com.example.newsapp.compose.screens.home.views.NewsRow
@@ -38,8 +39,8 @@ import com.example.newsapp.util.w
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(), onNewsClick: (ArticlesItem) -> Unit) {
-    val newsState = viewModel.newsState.collectAsState().value
-    val headlinesState = viewModel.topHeadlinesState.collectAsState().value
+    val newsState = viewModel.newsState.collectAsStateWithLifecycle().value
+    val headlinesState = viewModel.topHeadlinesState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit) {
         viewModel.getNews()
