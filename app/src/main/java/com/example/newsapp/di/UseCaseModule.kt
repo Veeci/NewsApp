@@ -1,8 +1,8 @@
 package com.example.newsapp.di
 
 import com.example.newsapp.data.remote.NewsApi
-import com.example.newsapp.data.repository.NewsRepository
-import com.example.newsapp.data.repository.NewsRepositoryImpl
+import com.example.newsapp.data.repository.remote.RemoteNewsRepository
+import com.example.newsapp.data.repository.remote.RemoteNewsRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Provides
     @Singleton
-    fun provideNewsRepository(api: NewsApi): NewsRepository {
-        return NewsRepositoryImpl(api)
+    fun provideNewsRepository(api: NewsApi): RemoteNewsRepository {
+        return RemoteNewsRepositoryImpl(api)
     }
 }

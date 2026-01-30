@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.local.dataModel.PaginatedFeedState
 import com.example.newsapp.data.remote.dto.NewsDto
-import com.example.newsapp.data.repository.NewsRepository
+import com.example.newsapp.data.repository.remote.RemoteNewsRepository
 import com.example.newsapp.util.Constants
 import com.example.newsapp.util.Constants.MAX_RESULTS
 import com.example.newsapp.util.ResponseStatus
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val remoteNewsRepository: RemoteNewsRepository
 ) : ViewModel() {
     private val newsFeed = PaginatedFeedState<NewsDto>()
     val newsState: StateFlow<ResponseStatus<NewsDto>> = newsFeed.state.asStateFlow()
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
             feed = newsFeed,
             pageSize = pageSize
         ) { page ->
-            newsRepository.getNews(
+            remoteNewsRepository.getNews(
                 query = query,
                 page = page,
                 pageSize = pageSize,
@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
             feed = newsFeed,
             pageSize = pageSize
         ) { page ->
-            newsRepository.getNews(
+            remoteNewsRepository.getNews(
                 query = query,
                 page = page,
                 pageSize = pageSize,
@@ -75,7 +75,7 @@ class HomeViewModel @Inject constructor(
             feed = headlinesFeed,
             pageSize = pageSize
         ) { page ->
-            newsRepository.getTopHeadlines(
+            remoteNewsRepository.getTopHeadlines(
                 country = country,
                 category = category,
                 page = page,
@@ -93,7 +93,7 @@ class HomeViewModel @Inject constructor(
             feed = headlinesFeed,
             pageSize = pageSize
         ) { page ->
-            newsRepository.getTopHeadlines(
+            remoteNewsRepository.getTopHeadlines(
                 country = country,
                 category = category,
                 page = page,

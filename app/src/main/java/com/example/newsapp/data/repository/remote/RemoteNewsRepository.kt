@@ -1,11 +1,11 @@
-package com.example.newsapp.data.repository
+package com.example.newsapp.data.repository.remote
 
 import com.example.newsapp.data.remote.dto.NewsDto
 import com.example.newsapp.util.Constants
 import com.example.newsapp.util.ResponseStatus
 import kotlinx.coroutines.flow.Flow
 
-interface NewsRepository {
+interface RemoteNewsRepository {
     suspend fun getNews(
         query: String = "world",
         page: Int = 1,

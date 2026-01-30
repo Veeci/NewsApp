@@ -1,4 +1,4 @@
-package com.example.newsapp.data.repository
+package com.example.newsapp.data.repository.remote
 
 import com.example.newsapp.data.remote.NewsApi
 import com.example.newsapp.data.remote.dto.NewsDto
@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-class NewsRepositoryImpl @Inject constructor(
+class RemoteNewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi
-) : NewsRepository, ApiHandler {
+) : RemoteNewsRepository, ApiHandler {
     override suspend fun getNews(
         query: String,
         page: Int,

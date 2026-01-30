@@ -3,7 +3,6 @@ package com.example.newsapp.compose.screens.articleDetail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +32,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -44,7 +45,11 @@ import com.example.newsapp.util.h
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleDetailScreen(article: ArticlesItem, onBackClick: () -> Unit) {
+fun ArticleDetailScreen(
+    viewModel: ArticleDetailViewModel = hiltViewModel(),
+    article: ArticlesItem,
+    onBackClick: () -> Unit
+) {
     val context = LocalDensity.current
     val listState = rememberLazyListState()
     val maxHeaderHeight = 30.h
@@ -59,10 +64,15 @@ fun ArticleDetailScreen(article: ArticlesItem, onBackClick: () -> Unit) {
         }
     }
 
+    viewModel.setCurrentArticle(article)
+    val isFavorite by viewModel
+        .isFavorite()
+        .collectAsStateWithLifecycle(initialValue = false)
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primary,
         bottomBar = {
-            BottomBar(true, onSaveArticle = {}, onShareArticle = {})
+            BottomBar(isFavorite, onSaveArticle = { viewModel.addToFavorites() }, onShareArticle = { viewModel.shareArticle() })
         }
     ) { contentPadding ->
         Box(

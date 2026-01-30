@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.data.local.dataModel.PaginatedFeedState
 import com.example.newsapp.data.remote.dto.NewsDto
-import com.example.newsapp.data.repository.NewsRepository
+import com.example.newsapp.data.repository.remote.RemoteNewsRepository
 import com.example.newsapp.util.Category
 import com.example.newsapp.util.Constants
 import com.example.newsapp.util.ResponseStatus
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val remoteNewsRepository: RemoteNewsRepository
 ) : ViewModel() {
     private val _selectedCategory = MutableStateFlow(Category.entries.toTypedArray().first())
     val selectedCategory = _selectedCategory.asStateFlow()
@@ -38,7 +38,7 @@ class ExploreViewModel @Inject constructor(
         fetchPaginatedNews(
             newsFeed = _newsList,
         ) { page ->
-            newsRepository.getTopHeadlines(
+            remoteNewsRepository.getTopHeadlines(
                 category = category.name,
                 page = page,
                 pageSize = Constants.PAGE_SIZE,

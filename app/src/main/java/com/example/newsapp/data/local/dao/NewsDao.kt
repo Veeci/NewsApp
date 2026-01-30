@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NewsDao {
     @Query("SELECT * FROM news")
-    fun getAllNews(): Flow<List<NewsEntity>>
+    fun getAllNews(): List<NewsEntity>
 
     @Query(
         """
@@ -20,8 +20,7 @@ interface NewsDao {
     )
 """
     )
-    suspend fun isFavorite(url: String): Boolean
-
+    fun isFavorite(url: String): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addToFavorites(news: NewsEntity)
