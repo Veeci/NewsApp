@@ -19,6 +19,7 @@ lottieCompose = "6.7.1"
 okhttp = "5.3.2"
 retrofit = "3.0.0"
 roomRuntime = "2.8.4"
+runtime = "1.10.1"
 
 [libraries]
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
@@ -51,6 +52,7 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

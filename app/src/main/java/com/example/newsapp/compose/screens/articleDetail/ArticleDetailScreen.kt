@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -64,7 +65,10 @@ fun ArticleDetailScreen(
         }
     }
 
-    viewModel.setCurrentArticle(article)
+    LaunchedEffect(article) {
+        viewModel.setCurrentArticle(article)
+    }
+
     val isFavorite by viewModel
         .isFavorite()
         .collectAsStateWithLifecycle(initialValue = false)
@@ -72,7 +76,13 @@ fun ArticleDetailScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primary,
         bottomBar = {
-            BottomBar(isFavorite, onSaveArticle = { viewModel.addToFavorites() }, onShareArticle = { viewModel.shareArticle() })
+            BottomBar(
+                isFavorite,
+                onToggleFavourite = { isChecked ->
+                    if (isChecked) viewModel.addToFavorites() else viewModel.removeFromFavorites()
+                },
+                onShareArticle = { viewModel.shareArticle() },
+            )
         }
     ) { contentPadding ->
         Box(

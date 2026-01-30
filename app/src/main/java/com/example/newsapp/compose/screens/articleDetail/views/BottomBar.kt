@@ -1,5 +1,6 @@
 package com.example.newsapp.compose.screens.articleDetail.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -18,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BottomBar(saved: Boolean, onSaveArticle: () -> Unit, onShareArticle: () -> Unit) {
+fun BottomBar(saved: Boolean, onToggleFavourite: (Boolean) -> Unit, onShareArticle: () -> Unit) {
     BottomAppBar(
         tonalElevation = 0.dp,
         containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.9f),
@@ -27,12 +28,15 @@ fun BottomBar(saved: Boolean, onSaveArticle: () -> Unit, onShareArticle: () -> U
             Spacer(Modifier.weight(1f))
             IconToggleButton(
                 checked = saved,
-                onCheckedChange = { _ -> onSaveArticle() }
+                onCheckedChange = { isChecked ->
+                    onToggleFavourite(isChecked)
+                    Log.d("BottomBar", "onToggleFavourite: $isChecked")
+                }
             ) {
                 Icon(
                     imageVector = if (saved) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Save Article",
-                    tint = if (saved) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.tertiary
+                    tint = if (saved) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             IconButton(onClick = onShareArticle) {
@@ -49,5 +53,5 @@ fun BottomBar(saved: Boolean, onSaveArticle: () -> Unit, onShareArticle: () -> U
 @Preview
 @Composable
 fun BottomBarPreview() {
-    BottomBar(true, onSaveArticle = {}, onShareArticle = {})
+    BottomBar(true, onToggleFavourite = {}, onShareArticle = {})
 }

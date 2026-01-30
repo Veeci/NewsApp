@@ -6,12 +6,14 @@ import com.example.newsapp.data.local.entity.NewsEntity
 import com.example.newsapp.data.remote.dto.ArticlesItem
 import com.example.newsapp.data.remote.dto.toEntity
 import com.example.newsapp.data.repository.local.LocalNewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ArticleDetailViewModel @Inject constructor(
     private val localNewsRepository: LocalNewsRepository
 ) : ViewModel() {
